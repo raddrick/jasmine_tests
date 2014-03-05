@@ -43,6 +43,7 @@ Calculator.prototype.flatMarkup = function(){
 Calculator.prototype.additionalMarkup = function(price,type){
   if (type) this.setMarkup(type);
   price = price * this.markup;
+  console.log("Markup %: " + this.markup)
   return parseFloat(price.toFixed(2),10);
   //return price;
 };
