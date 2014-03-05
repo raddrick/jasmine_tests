@@ -31,17 +31,25 @@ describe("Calculator",function() {
     // drugs have a 7.5% markup
     var cost = 100 * calculator.setMarkup('drugs');
     expect(cost).toEqual(7.5);
+    cost = calculator.additionalMarkup(100,'drugs');
+    expect(cost).toEqual(7.5);
 
     // food have a 13% markup
     cost = 101 * calculator.setMarkup('food');
+    expect(cost).toEqual(13.13);
+    cost = calculator.additionalMarkup(101,'food');
     expect(cost).toEqual(13.13);
 
     // electronics have a 2% markup
     cost = 100 * calculator.setMarkup('electronics');
     expect(cost).toEqual(2);
+    cost = calculator.additionalMarkup(100,'electronics');
+    expect(cost).toEqual(2);
 
     // other types have a 0% markup
     cost = 101 * calculator.setMarkup('books');
+    expect(cost).toEqual(0);
+    cost = calculator.additionalMarkup(101,'books');
     expect(cost).toEqual(0);
   });
   it("should return electronics cost on price", function(){
