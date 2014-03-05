@@ -58,21 +58,64 @@ describe("Calculator",function() {
       type:'electronics',
       price:1299.99
     });
+
+    var flat_markup = calculator.flatMarkup();
+    expect(flat_markup).toEqual(111.80);
+    
+    var markup_price = flat_markup + calculator.price;
+    expect(markup_price).toEqual(1411.79);
+
+    var cost = calculator.additionalMarkup(markup_price,'electronics') + markup_price;
+    cost = parseFloat(cost.toFixed(2),10);
+    expect(cost).toEqual(1440.03);
+
+    expect(cost).toEqual(electronics_cost);
     expect(electronics_cost).toEqual(1440.03);
   });
 
+  it("should calculate the cost for a food item",function(){
+    calculator.people(1);
+    calculator.price = 100;
+    
+    var flat_markup = calculator.flatMarkup();
+    expect(flat_markup).toEqual(6.20);
+    
+    var markup_price = flat_markup + calculator.price;
+    expect(markup_price).toEqual(106.20);
+
+    var cost = calculator.additionalMarkup(markup_price,'food') + markup_price;
+    cost = parseFloat(cost.toFixed(2),10);
+    expect(cost).toEqual(120.01);
+  });
   // The following tests are directly from the exercise
   //  NOTE: THEY FAIL!
   //    could it be that the numbers are wrong on the exercise? that would be evil.
   //    it is more likely that it is my magical calculation..
   //    cost = price + flat_markup + additionalMarkup((flat_markup + price),options.type));
   it("should return food cost on price", function(){
+    
     var food_cost=calculator.execute({
       people:3,
       type:'food',
       price:1299.99
     });
-    expect(food_cost).toEqual(1591.58);
+
+    var flat_markup = calculator.flatMarkup();
+    expect(flat_markup).toEqual(111.80);
+    // 0.05 + (0.012 * 3) = 0.086
+    // 1299.99 * 0.086 = 111.80
+    
+    var markup_price = flat_markup + calculator.price;
+    expect(markup_price).toEqual(1411.79);
+    // 111.80 + 1299.99 = 1411.79
+
+    var cost = calculator.additionalMarkup(markup_price,'food') + markup_price;
+    cost = parseFloat(cost.toFixed(2),10);
+    expect(cost).toEqual(1595.32);
+    // (1411.79 * 0.13) + 1411.79 = 1595.32
+
+    expect(cost).toEqual(food_cost);
+    expect(food_cost).toEqual(1591.58);  // NOTE: THIS TEST FAILS, value found on exercise
   });
   it("should return drugs cost on price", function(){
     var drugs_cost=calculator.execute({
@@ -80,7 +123,19 @@ describe("Calculator",function() {
       type:'drugs',
       price:5432.00
     });
-    expect(drugs_cost).toEqual(6199.81);
+
+    var flat_markup = calculator.flatMarkup();
+    expect(flat_markup).toEqual(336.78);
+    
+    var markup_price = flat_markup + calculator.price;
+    expect(markup_price).toEqual(5768.78);
+
+    var cost = calculator.additionalMarkup(markup_price,'drugs') + markup_price;
+    cost = parseFloat(cost.toFixed(2),10);
+    expect(cost).toEqual(6201.44);
+
+    expect(cost).toEqual(drugs_cost);
+    expect(drugs_cost).toEqual(6199.81);  // NOTE: THIS TEST FAILS, value found on exercise
   });
   it("should return other cost on price", function(){
     var books_cost=calculator.execute({
@@ -88,6 +143,18 @@ describe("Calculator",function() {
       type:'books',
       price:12456.95
     });
-    expect(books_cost).toEqual(13707.63);
+
+    var flat_markup = calculator.flatMarkup();
+    expect(flat_markup).toEqual(1220.78);
+    
+    var markup_price = flat_markup + calculator.price;
+    expect(parseFloat(markup_price.toFixed(2),10)).toEqual(13677.73);
+
+    var cost = calculator.additionalMarkup(markup_price,'books') + markup_price;
+    cost = parseFloat(cost.toFixed(2),10);
+    expect(cost).toEqual(13677.73);
+
+    expect(cost).toEqual(books_cost);
+    expect(books_cost).toEqual(13707.63);  // NOTE: THIS TEST FAILS, value found on exercise
   });
 });
